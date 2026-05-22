@@ -1,0 +1,16 @@
+adult:
+  mu : 30.0e-3
+  sigma : 3.0e-2
+  rho : 1000
+  a : 0.86e-2
+  V0 : 100.0e-6
+  flow_rate : 100.0e-6
+  n_gen : 12
+infant:
+  mu : 30.0e-3
+  sigma : 3.0e-2
+  rho : 1000
+  a : 0.2e-2
+  V0 : 1.0e-6
+  flow_rate : 1.0e-6
+  n_gen : 8

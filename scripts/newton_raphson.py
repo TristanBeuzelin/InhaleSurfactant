@@ -138,7 +138,7 @@ def main():
     plt.cla()
     plt.clf()
     fig, ax = plt.subplots()
-    fig.set_size_inches(4.8, 4.8)
+    fig.set_size_inches(5.8, 5.8)
 
     for viscosity in viscosities:
         if viscosity == 3e-2:
@@ -157,9 +157,7 @@ def main():
             threshold = 2 * 5e-4
         mask = np.abs(mus - viscosity) < threshold
         indices = np.argwhere(mask)
-        print(indices.shape)
         flow_rates = Q0[indices[:, 1]]
-        print(flow_rates)
         volumes = V0[indices[:, 0]]
         ax.plot(
             10**6 * flow_rates,
@@ -194,22 +192,29 @@ def main():
     plt.tick_params(axis="both", which="major", labelsize=15)
     plt.tick_params(axis="both", which="minor", labelsize=15)
 
+    from matplotlib.patches import Rectangle
+
+    rect = Rectangle(
+        (140, 70), 140, 210, edgecolor="green", facecolor="none", alpha=1, linewidth=8
+    )
     norm = mpl.colors.Normalize(vmin=mus.min(), vmax=mus.max())
     cmap = mpl.cm.ScalarMappable(norm=norm, cmap=mpl.cm.plasma)
     cmap.set_array([])
-    cmap2 = mpl.colormaps.get_cmap("plasma")
+    cmap2 = mpl.colormaps.get_cmap(
+        "plasma"
+    )  # viridis is the default colormap for imshow
     ax.imshow(mus, cmap=cmap2, origin="lower", extent=[70, 420, 70, 420], alpha=0.5)
+    ax.add_patch(rect)
 
     cbar = fig.colorbar(cmap, ax=ax, alpha=0.5)
     cbar.set_label("Critical viscosity (Pa.s)", size=20)
     cbar.ax.tick_params(labelsize=15)
     plt.savefig(
-        "/".join((SAVE_PATH, "viscocrit.svg")),
+        "/".join((SAVE_PATH, "figure_3b.svg")),
         dpi=500,
         format="svg",
         bbox_inches="tight",
     )
-    """-------------------------------"""
 
 
 if __name__ == "__main__":

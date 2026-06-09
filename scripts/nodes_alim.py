@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from src.surfactant import Surfactant
 from src.model import Tree
-from labellines import labelLines
 
 
 def main():
@@ -19,8 +18,15 @@ def main():
         params["tree_phi"] = 0.0
 
     mus = np.linspace(1e-2, 1, 200)
-    volumes = [70e-6, 150e-6, 250e-6, 350e-6, 400e-6]
-    flow_rate = 70e-6
+    volumes = [
+        70e-6,
+        100e-6,
+        150e-6,
+        250e-6,
+        350e-6,
+        400e-6,
+    ]
+    flow_rate = 100e-6
     volume = 200e-6
 
     nb_alim_nodes = []
@@ -42,6 +48,7 @@ def main():
                 track_ruptures=True,
                 coating=True,
             )
+
             tree.set_angles(gamma=params["tree_gamma"], phi=params["tree_phi"])
             tree.generate_tree()
             tree.inject(volume=volume, flow_rate=flow_rate)
@@ -50,34 +57,24 @@ def main():
             tree.compute_std_inv()
 
             if (tree.alphas[1] != 0.0).any() and not flag_second_embranchement:
-                print(f"Critical viscosity for second embranchement : {mu:.5f} Pa.s")
+                print(f"Critical viscosity for second embranchement : {mu:.5f}")
                 flag_second_embranchement = True
             nb_alim_nodes.append(tree.final_volumes[tree.final_volumes != 0.0].shape[0])
-
-        surf = Surfactant(mu=3e-2, sigma=params["sigma"], rho=params["rho"])
-        tree = Tree(
-            surfactant=surf,
-            a0=params["a"],
-            n_gen=params["n_gen"],
-            track_ruptures=True,
-            coating=True,
-        )
-        tree.set_angles(gamma=params["tree_gamma"], phi=params["tree_phi"])
-        tree.generate_tree()
-        tree.inject(volume=volume, flow_rate=flow_rate)
-        tree.loop()
-        tree.compute_efficiency()
-        tree.compute_std_inv()
-        print(f"Efficiency : {tree.efficiency} %")
-        print(f"1/Std : {tree.std_inv}")
-
         if i >= 7:
             ax.plot(
                 mus,
                 nb_alim_nodes,
                 c="black",
                 label=f"{volume * 10**6:.0f}  - {volumes[-1] * 10**6:.0f} mL",
-                linewidth=2,
+                linewidth=4,
+            )
+        elif i == 0:
+            ax.plot(
+                mus,
+                nb_alim_nodes,
+                c="blue",
+                label=f"{volume * 10**6:.0f}  - {volumes[-1] * 10**6:.0f} mL",
+                linewidth=4,
             )
         else:
             ax.plot(
@@ -85,22 +82,22 @@ def main():
                 nb_alim_nodes,
                 c="black",
                 label=f"{volume * 10**6:.0f} mL",
-                linewidth=2,
+                linewidth=4,
             )
-    xvals = [0.5, 0.45, 0.35, 0.3, 0.25, 0.20, 0.15]
-    labelLines(ax.get_lines(), zorder=2.5, xvals=xvals, fontsize=15)
 
     plt.ylabel("Number of supplied final nodes", size=20)
     plt.xlabel("Viscosity (Pa.s)", size=20)
-    plt.xticks([3e-2, 0.146, 3e-1, 1])
     plt.yticks([0, N_tot / 4, N_tot / 2, N_tot * 3 / 4, N_tot])
-    plt.xlim([0, 1])
+    plt.xlim([0.01, 1])
     plt.ylim([0, 2 ** (params["n_gen"])])
+    plt.xscale("log")
+    plt.xticks([0.01, 0.1, 1])
     plt.tick_params(axis="both", which="major", labelsize=15)
     plt.tick_params(axis="both", which="minor", labelsize=15)
-    plt.axvline(x=0.146, color="r")
+    plt.axvline(x=0.103, color="r", linewidth=4)
+    plt.axvline(x=0.03, color="g", linewidth=4)
     plt.grid(visible=True)
-    plt.savefig("/".join((SAVE_PATH, "nodes_alim_mus.svg")), dpi=500, format="svg")
+    plt.savefig("/".join((SAVE_PATH, "figure_3a.svg")), dpi=500, format="svg")
 
 
 if __name__ == "__main__":

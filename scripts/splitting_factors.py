@@ -5,10 +5,10 @@ from src.surfactant import Surfactant
 from src.model import Tree
 
 
-def main():
+def main(TYPE="infant"):
     """Reproduces Figure 2 splitting factors distributions across generations."""
 
-    TYPE = "infant"
+    TYPE = TYPE
     SAVE_PATH = "./"
 
     with open("../params/params.yml", "r") as file:
@@ -21,7 +21,6 @@ def main():
     fig, ax = plt.subplots()
     colors = ["cornflowerblue", "gold", "red"]
     for mu, c in zip([3e-2, 0.3, 1.0], colors):
-        print(mu)
         surf = Surfactant(mu=mu, sigma=params["sigma"], rho=params["rho"])
         tree = Tree(
             surfactant=surf,
@@ -36,8 +35,6 @@ def main():
         tree.loop()
         tree.compute_efficiency()
         tree.compute_std_inv()
-        print(f"Efficiency : {tree.efficiency} %")
-        print(f"1/Std : {tree.std_inv}")
         alphas = []
         for i, (arr, filt) in enumerate(zip(tree.alphas, tree.split_ruptures)):
             filt = tree.split_ruptures[i] != -1
@@ -67,9 +64,10 @@ def main():
     ax.tick_params(axis="both", which="major", labelsize=20)
     ax.tick_params(axis="both", which="minor", labelsize=20)
     plt.grid(visible=True)
-    plt.savefig(
-        "".join((SAVE_PATH, f"{params['type']}_alphas.svg")), dpi=500, format="svg"
-    )
+    if TYPE == "infant":
+        plt.savefig("".join((SAVE_PATH, "figure_2a.svg")), dpi=500, format="svg")
+    else:
+        plt.savefig("".join((SAVE_PATH, "figure_2b.svg")), dpi=500, format="svg")
 
 
 if __name__ == "__main__":

@@ -9,12 +9,12 @@ from src.plot_tree import Tree_plot
 from src.surfactant import Surfactant
 
 
-def main():
+def main(figure, viscosity, type):
     """
     Reproduce Figure 1 plots by performing a simple injection simulation.
     Results are saved in h5 format.
     """
-    TYPE = "adult"
+    TYPE = type
     SAVE_PATH = "./"
     PLOT_3D = True
 
@@ -26,7 +26,7 @@ def main():
     params["tree_phi"] = 0.0
 
     surf = Surfactant(
-        mu=params["mu"],
+        mu=viscosity,
         sigma=params["sigma"],
         rho=params["rho"],
     )
@@ -102,7 +102,7 @@ def main():
         tree_plt.plot_end(
             volumes=tree.homogeneity,
             path=SAVE_PATH,
-            filename="final_distribution.png",
+            filename=f"figure_1{figure}.png",
         )
 
 

@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite it as below."
+authors:
+- family-names: "Beuzelin"
+  given-names: "Tristan"
+  orcid: "https://orcid.org/0009-0008-5043-9405"
+title: "Code from [cite paper]"
+version: 0.1.0
+doi: 10.5281/zenodo.20628564
+date-released: 2026-06-10
+url: "https://github.com/TristanBeuzelin/InhaleSurfactant.git"

@@ -32,4 +32,4 @@ Each script uses *src* code to reproduce a figure :
 #### model.py
 
 The model described in (ref article) is represented by the *Tree* class. Each class method is described inside the code. To run a full surfactant injection, we begin by
-creating the surfactant object, then the tree. We set the tree angles (*Tree.set_angles*), generate its geometry (*Tree.generate_tree*), inject surfactant volume (*Tree.inject*), compute the full flow from trachea to final nodes (*Tree.loop*) and compute metrics (*Tree.compute_efficiency* and *Tree.compute_std_inv").
+creating the surfactant object, then the tree. We set the tree angles (*Tree.set_angles*), generate its geometry (*Tree.generate_tree*), inject surfactant volume (*Tree.inject*), compute the full flow from trachea to final nodes (*Tree.loop*) and compute metrics (*Tree.compute_efficiency* and *Tree.compute_std_inv*).

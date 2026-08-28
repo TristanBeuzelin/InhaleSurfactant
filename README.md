@@ -5,12 +5,12 @@ This repository aims at reproducing every figure in **cite paper**. The *require
 ## Params
 YAML parameters file in params/params.yml give the following values for each lung type (infant and adult):
 
-- Surfactant viscosity (Pa.s)
-- Surfactant surface tension (N/m)
-- Surfactant density (kg/m^3)
-- Tracheal radius (m)
-- Injection volume (m^3)
-- Injection flow rate (m^3/s)
+- Surfactant viscosity ($\mathrm{Pa} \cdot \mathrm{s}$)
+- Surfactant surface tension ($\mathrm{N} \cdot \mathrm{m}^{-1}$)
+- Surfactant density ($\mathrm{kg} \cdot \mathrm{m}^{-3}$)
+- Tracheal radius ($\mathrm{m}$)
+- Injection volume ($\mathrm{m}^3$)
+- Injection flow rate ($\mathrm{m}^3 \cdot \mathrm{s}^{-1}$)
 - Number of lung generations
 
 ## Scripts

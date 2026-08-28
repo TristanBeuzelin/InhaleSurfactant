@@ -1,24 +1,24 @@
-import yaml
-import numpy as np
 import matplotlib.pyplot as plt
-from src.surfactant import Surfactant
+import numpy as np
+import yaml
 from src.model import Tree
+from src.surfactant import Surfactant
 
 
 def main(TYPE="infant"):
     """Reproduces Figure 2 splitting factors distributions across generations."""
 
-    TYPE = TYPE
+    type = TYPE
     SAVE_PATH = "./"
 
     with open("../params/params.yml", "r") as file:
-        params = yaml.safe_load(file)[TYPE]
-        params["type"] = TYPE
+        params = yaml.safe_load(file)[type]
+        params["type"] = type
         # Choose orientation
         params["tree_gamma"] = 0.0
         params["tree_phi"] = 0.0
 
-    fig, ax = plt.subplots()
+    _fig, ax = plt.subplots()
     colors = ["cornflowerblue", "gold", "red"]
     for mu, c in zip([3e-2, 0.3, 1.0], colors):
         surf = Surfactant(mu=mu, sigma=params["sigma"], rho=params["rho"])
@@ -39,35 +39,30 @@ def main(TYPE="infant"):
         for i, (arr, filt) in enumerate(zip(tree.alphas, tree.split_ruptures)):
             filt = tree.split_ruptures[i] != -1
             alphas.append(arr[filt])
-        lines = []
         for level, X in enumerate(alphas):
-            plt.scatter(x=np.ones(shape=X.shape) * level, y=X, c=c)
+            plt.scatter(y=np.ones(shape=X.shape) * level, x=X, c=c)
             if level > 0:
                 for p_alpha, alpha_left in zip(prev_alphas, X[::2]):
-                    lines.append((level - 1, p_alpha))
-                    lines.append((level, alpha_left))
                     plt.plot(
-                        (level - 1, level), (p_alpha, alpha_left), color=c, alpha=0.1
+                        (p_alpha, alpha_left), (level - 1, level), color=c, alpha=0.1
                     )
                 for p_alpha, alpha_right in zip(prev_alphas, X[1::2]):
-                    lines.append((level - 1, p_alpha))
-                    lines.append((level, alpha_right))
                     plt.plot(
-                        (level - 1, level), (p_alpha, alpha_right), color=c, alpha=0.1
+                        (p_alpha, alpha_right), (level - 1, level), color=c, alpha=0.1
                     )
             prev_alphas = X
-    plt.ylabel("Splitting factors", size=20)
-    plt.xlabel("Generation", size=20)
-    plt.ylim([0.0, 0.5])
-    ax.yaxis.set_inverted(False)
-    ax.set_xticks([i for i in range(params["n_gen"])])
+    plt.xlabel("Splitting factors", size=20)
+    plt.ylabel("Generation", size=20)
+    plt.xlim([0.0, 0.5])
+    ax.yaxis.set_inverted(True)
+    ax.set_yticks([i for i in range(params["n_gen"])])
     ax.tick_params(axis="both", which="major", labelsize=20)
     ax.tick_params(axis="both", which="minor", labelsize=20)
     plt.grid(visible=True)
     if TYPE == "infant":
-        plt.savefig("".join((SAVE_PATH, "figure_2a.svg")), dpi=500, format="svg")
+        plt.savefig(f"{SAVE_PATH}/figure_2a.svg", dpi=500, format="svg")
     else:
-        plt.savefig("".join((SAVE_PATH, "figure_2b.svg")), dpi=500, format="svg")
+        plt.savefig(f"{SAVE_PATH}/figure_2b.svg", dpi=500, format="svg")
 
 
 if __name__ == "__main__":

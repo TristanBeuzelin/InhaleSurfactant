@@ -1,8 +1,9 @@
+from itertools import product
+
+import newton_raphson
+import nodes_alim
 import single_injection
 import splitting_factors
-import nodes_alim
-import newton_raphson
-from itertools import product
 
 
 def main():

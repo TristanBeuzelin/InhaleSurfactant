@@ -1,8 +1,7 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib import animation, cm
 from src.quaternion import Quaternion
-from matplotlib import animation
-import matplotlib.cm as cm
 
 
 class Tree_plot:
@@ -149,7 +148,7 @@ class Tree_plot:
         self.ax.view_init(elev=0.0, azim=90)
 
         cbar = self.fig.colorbar(scatter, location="left")
-        cbar.ax.set_yticklabels(["{:.2f}".format(i) for i in cbar.get_ticks()])
+        cbar.ax.set_yticklabels([f"{i:.2f}" for i in cbar.get_ticks()])
         cbar.ax.tick_params(labelsize=15)
         cbar.set_label("Normalized volume", fontsize=20)
         if self.n_gen == 8:
@@ -158,7 +157,7 @@ class Tree_plot:
             scatter.set_clim(0.05, 5)
         plt.axis("off")
         plt.grid(visible=False)
-        plt.savefig("".join((path, filename)), dpi=500, format="png")
+        plt.savefig(f"{path}/{filename}", dpi=500, format="png")
 
     def animate(self, path, filename):
         def init():
@@ -172,4 +171,4 @@ class Tree_plot:
         anim = animation.FuncAnimation(
             self.fig, animate, init_func=init, frames=180, interval=60, blit=True
         )
-        anim.save("/".join((path, filename)), fps=30)
+        anim.save(f"{path}/{filename}", fps=30)

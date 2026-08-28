@@ -3,7 +3,6 @@ import datetime
 import h5py
 import numpy as np
 import yaml
-
 from src.model import Tree
 from src.plot_tree import Tree_plot
 from src.surfactant import Surfactant

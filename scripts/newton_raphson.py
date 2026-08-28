@@ -1,7 +1,7 @@
-import yaml
-import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import numpy as np
+import yaml
 from labellines import labelLine
 
 
@@ -152,7 +152,7 @@ def main():
         elif viscosity == 8e-2:
             threshold = 14 * 3e-5
         elif viscosity == 1e-1:
-            threshold == 12 * 5e-4
+            threshold = 12 * 5e-4
         else:
             threshold = 2 * 5e-4
         mask = np.abs(mus - viscosity) < threshold
@@ -210,7 +210,7 @@ def main():
     cbar.set_label("Critical viscosity (Pa.s)", size=20)
     cbar.ax.tick_params(labelsize=15)
     plt.savefig(
-        "/".join((SAVE_PATH, "figure_3b.svg")),
+        f"{SAVE_PATH}/figure_3b.svg",
         dpi=500,
         format="svg",
         bbox_inches="tight",

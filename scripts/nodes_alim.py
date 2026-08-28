@@ -1,8 +1,8 @@
-import yaml
-import numpy as np
 import matplotlib.pyplot as plt
-from src.surfactant import Surfactant
+import numpy as np
+import yaml
 from src.model import Tree
+from src.surfactant import Surfactant
 
 
 def main():
@@ -38,7 +38,6 @@ def main():
 
     for i, volume in enumerate(volumes):
         nb_alim_nodes = []
-        flag_second_embranchement = False
         for mu in mus:
             surf = Surfactant(mu=mu, sigma=params["sigma"], rho=params["rho"])
             tree = Tree(
@@ -56,9 +55,6 @@ def main():
             tree.compute_efficiency()
             tree.compute_std_inv()
 
-            if (tree.alphas[1] != 0.0).any() and not flag_second_embranchement:
-                print(f"Critical viscosity for second embranchement : {mu:.5f}")
-                flag_second_embranchement = True
             nb_alim_nodes.append(tree.final_volumes[tree.final_volumes != 0.0].shape[0])
         if i >= 7:
             ax.plot(
@@ -94,10 +90,11 @@ def main():
     plt.xticks([0.01, 0.1, 1])
     plt.tick_params(axis="both", which="major", labelsize=15)
     plt.tick_params(axis="both", which="minor", labelsize=15)
+    plt.tick_params(axis='x', which='both', labelsize=17)
     plt.axvline(x=0.103, color="r", linewidth=4)
     plt.axvline(x=0.03, color="g", linewidth=4)
     plt.grid(visible=True)
-    plt.savefig("/".join((SAVE_PATH, "figure_3a.svg")), dpi=500, format="svg")
+    plt.savefig(f"{SAVE_PATH}/figure_3a.svg", dpi=500, format="svg")
 
 
 if __name__ == "__main__":

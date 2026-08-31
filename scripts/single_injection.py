@@ -1,9 +1,10 @@
+import argparse
 import datetime
+from pathlib import Path
+
 import h5py
 import numpy as np
 import yaml
-import argparse
-from pathlib import Path
 from src.model import Tree
 from src.plot_tree import Tree_plot
 from src.surfactant import Surfactant

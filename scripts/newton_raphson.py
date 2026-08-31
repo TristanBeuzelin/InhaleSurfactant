@@ -1,10 +1,11 @@
+import argparse
+from pathlib import Path
+
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import yaml
-import argparse
 from labellines import labelLine
-from pathlib import Path
 
 
 def f(x, params):

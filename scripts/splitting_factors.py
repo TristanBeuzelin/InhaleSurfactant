@@ -1,8 +1,9 @@
+import argparse
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import numpy as np
 import yaml
-import argparse
-from pathlib import Path
 from src.model import Tree
 from src.surfactant import Surfactant
 

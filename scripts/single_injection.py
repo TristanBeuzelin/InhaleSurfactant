@@ -1,26 +1,58 @@
 import datetime
-
 import h5py
 import numpy as np
 import yaml
+import argparse
+from pathlib import Path
 from src.model import Tree
 from src.plot_tree import Tree_plot
 from src.surfactant import Surfactant
 
 
-def main(figure, viscosity, type):
+def main(argv=None):
     """
     Reproduce Figure 1 plots by performing a simple injection simulation.
     Results are saved in h5 format.
     """
-    TYPE = type
-    SAVE_PATH = "./"
     PLOT_3D = True
+    REPO_ROOT = Path(__file__).resolve().parent.parent
+    SAVE_PATH = Path(f"{REPO_ROOT}/results")
+    SAVE_PATH.mkdir(exist_ok=True)
 
-    with open("../params/params.yml", "r") as file:
-        params = yaml.safe_load(file)[TYPE]
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--param",
+        type=Path,
+        default=REPO_ROOT / "params/params.yml",
+        help="Path to YML parameters file"
+    )
+    parser.add_argument(
+            "--type",
+            type=str,
+            default="adult",
+            help="Patient type"
+    )
+    parser.add_argument(
+            "--viscosity",
+            type=float,
+            default=0.03,
+            help="Surfactant viscosity"
+    )
+    parser.add_argument(
+                "--figure",
+                type=str,
+                default="default_figure",
+                help="Figure name"
+        )
+    args = parser.parse_args(argv)
+    viscosity = args.viscosity
+    figure = args.figure
+    type = args.type
 
-    params["type"] = TYPE
+    with open(args.param, "r") as file:
+        params = yaml.safe_load(file)[type]
+
+    params["type"] = type
     params["tree_gamma"] = 0.0
     params["tree_phi"] = 0.0
 
@@ -57,14 +89,14 @@ def main(figure, viscosity, type):
         axis=1,
     )
 
-    output_path = f"{SAVE_PATH}/inj_0.h5"
+    output_path = f"{SAVE_PATH}/inj_{figure}.h5"
     with h5py.File(output_path, "w") as f:
         f.attrs["created_at"] = datetime.datetime.now().isoformat()
 
         inj_params = f.create_group("injection_parameters")
         inj_params.attrs.update(
             {
-                "type": TYPE,
+                "type": type,
                 "gamma": params["tree_gamma"],
                 "phi": params["tree_phi"],
                 "viscosity": params["mu"],
@@ -106,4 +138,5 @@ def main(figure, viscosity, type):
 
 
 if __name__ == "__main__":
+    
     main()

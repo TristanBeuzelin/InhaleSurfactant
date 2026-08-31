@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import yaml
+import argparse
+from pathlib import Path
 from src.model import Tree
 from src.surfactant import Surfactant
 
@@ -9,9 +11,20 @@ def main():
     """Reproduces Figure 3.a plot."""
 
     TYPE = "adult"
-    SAVE_PATH = "./"
+    REPO_ROOT = Path(__file__).resolve().parent.parent
+    SAVE_PATH = Path(f"{REPO_ROOT}/results")
+    SAVE_PATH.mkdir(exist_ok=True)
+    
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--param",
+        type=Path,
+        default=REPO_ROOT / "params/params.yml",
+        help="Path to YML parameters file"
+    )
+    args = parser.parse_args()
 
-    with open("../params/params.yml", "r") as file:
+    with open(args.param, "r") as file:
         params = yaml.safe_load(file)[TYPE]
         params["type"] = TYPE
         params["tree_gamma"] = 0.0

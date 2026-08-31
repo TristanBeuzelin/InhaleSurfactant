@@ -13,11 +13,11 @@ def main():
     viscosities = [3e-2, 3e-1, 1.0]
     TYPES = ["infant", "adult"]
     for figure, (type, viscosity) in zip(figures, product(TYPES, viscosities)):
-        single_injection.main(figure=figure, type=type, viscosity=viscosity)
+        single_injection.main(["--type", type, "--viscosity", str(viscosity), "--figure", figure])
     print("Single injection done. Figure 1 plot reproduced.")
     print("Spltting factors graph...")
-    splitting_factors.main(TYPE="infant")
-    splitting_factors.main(TYPE="adult")
+    splitting_factors.main(["--type", "infant"])
+    splitting_factors.main(["--type", "adult"])
     print("Figure 2 reproduced.")
     print("Final nodes alimentation...")
     nodes_alim.main()

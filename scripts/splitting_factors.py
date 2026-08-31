@@ -1,17 +1,36 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import yaml
+import argparse
+from pathlib import Path
 from src.model import Tree
 from src.surfactant import Surfactant
 
 
-def main(TYPE="infant"):
+def main(argv=None):
     """Reproduces Figure 2 splitting factors distributions across generations."""
 
-    type = TYPE
-    SAVE_PATH = "./"
+    REPO_ROOT = Path(__file__).resolve().parent.parent
+    SAVE_PATH = Path(f"{REPO_ROOT}/results")
+    SAVE_PATH.mkdir(exist_ok=True)
+    
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--param",
+        type=Path,
+        default=REPO_ROOT / "params/params.yml",
+        help="Path to YML parameters file"
+    )
+    parser.add_argument(
+            "--type",
+            type=str,
+            default="adult",
+            help="Patient type"
+        )
+    args = parser.parse_args(argv)
+    type = args.type
 
-    with open("../params/params.yml", "r") as file:
+    with open(args.param, "r") as file:
         params = yaml.safe_load(file)[type]
         params["type"] = type
         # Choose orientation
@@ -59,7 +78,7 @@ def main(TYPE="infant"):
     ax.tick_params(axis="both", which="major", labelsize=20)
     ax.tick_params(axis="both", which="minor", labelsize=20)
     plt.grid(visible=True)
-    if TYPE == "infant":
+    if type == "infant":
         plt.savefig(f"{SAVE_PATH}/figure_2a.svg", dpi=500, format="svg")
     else:
         plt.savefig(f"{SAVE_PATH}/figure_2b.svg", dpi=500, format="svg")

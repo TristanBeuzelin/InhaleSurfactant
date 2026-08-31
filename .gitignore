@@ -1,4 +1,4 @@
-
+results/
 **/__pycache__
 **/.ruff_cache
 *.pdf
@@ -10,12 +10,10 @@
 *.gif
 *.h5
 *.nix
-*.lock
 *.envrc
-*.toml
-*.python-version
 *.csv
 *.sh
 *.out
 *.profile
 *.npy
+*.venv

@@ -61,7 +61,9 @@ def main(argv=None):
             alphas.append(arr[filt])
         for level, X in enumerate(alphas):
             plt.scatter(y=np.ones(shape=X.shape) * level, x=X, c=c)
-            if level > 0:
+            if level == 0:
+                prev_alphas = X
+            else:
                 for p_alpha, alpha_left in zip(prev_alphas, X[::2]):
                     plt.plot(
                         (p_alpha, alpha_left), (level - 1, level), color=c, alpha=0.1
@@ -70,7 +72,7 @@ def main(argv=None):
                     plt.plot(
                         (p_alpha, alpha_right), (level - 1, level), color=c, alpha=0.1
                     )
-            prev_alphas = X
+                prev_alphas = X
     plt.xlabel("Splitting factors", size=20)
     plt.ylabel("Generation", size=20)
     plt.xlim([0.0, 0.5])

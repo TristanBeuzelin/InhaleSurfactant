@@ -81,8 +81,8 @@ def main(argv=None):
     tree.compute_std_inv()
 
     print("Injection done, metrics:")
-    print(f"  Efficiency : {tree.efficiency} %")
-    print(f"  1/Std      : {tree.std_inv}\n")
+    print(f"  Efficiency : {tree.efficiency:.2f} %")
+    print(f"  1/Std      : {tree.std_inv:.2f}\n")
 
     final_positions = tree.full_vecs[-1]
     data = np.concatenate(

@@ -2,8 +2,28 @@
 
 This repository aims at reproducing every figure in **cite paper**. The *requirements.txt* file gives the minimum necessary environment
 
+## Installation and execution
+
+Using uv:
+
+```bash
+git clone https://github.com/TristanBeuzelin/InhaleSurfactant.git
+cd InhaleSurfactant
+uv sync
+```
+
+If uv cannot be used, a *requirements.txt* file is available.
+
+Execute any script with :
+
+```bash
+uv run python scripts/script_name.py
+```
+
+A *results/* folder is created with all the figures and a simulation *.h5* datafile inside.
+
 ## Params
-YAML parameters file in params/params.yml give the following values for each lung type (infant and adult):
+Default YAML parameters file in params/params.yml give the following values for each lung type (infant and adult) used in the paper:
 
 - Surfactant viscosity ($\mathrm{Pa} \cdot \mathrm{s}$)
 - Surfactant surface tension ($\mathrm{N} \cdot \mathrm{m}^{-1}$)
@@ -13,11 +33,13 @@ YAML parameters file in params/params.yml give the following values for each lun
 - Injection flow rate ($\mathrm{m}^3 \cdot \mathrm{s}^{-1}$)
 - Number of lung generations
 
+Custom parameters can be loaded using --param.
+
 ## Scripts
 
 Each script uses *src* code to reproduce a figure :
 
-- **single_injection.py** performs single injections to reproduce Figure 1 plot.
+- **single_injection.py** performs single injections to reproduce Figure 1 plot. Custom parameter file can be used and loaded with --param argument. Surfactant viscosity and patient type can be quickly tuned using --viscosity and --type args.
 - **splitting_factors.py** reproduces Figure 2 plot.
 - **nodes_alim.py** reproduces Figure 3.a plot.
 - **newton_raphson.py** reproduces Figure 3.b plot.

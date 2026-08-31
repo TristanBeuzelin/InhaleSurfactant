@@ -1,6 +1,6 @@
 # InhaleSurfactant
 
-This repository aims at reproducing every figure in **cite paper**. The *requirements.txt* file gives the minimum necessary environment
+This repository aims at reproducing every figure in **cite paper**. It also permits to perform custom simulations of exogenous pulmonary surfactant injections.
 
 ## Installation and execution
 

@@ -1,6 +1,6 @@
 # InhaleSurfactant
 
-This repository aims at reproducing every figure in **cite paper**. It also permits to perform custom simulations of exogenous pulmonary surfactant injections.
+This repository aims at reproducing every figure in **https://arxiv.org/abs/2609.18450**. It also permits to perform custom simulations of exogenous pulmonary surfactant injections.
 
 ## Installation and execution
 
